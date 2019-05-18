@@ -12,12 +12,8 @@ class PiSenseHat:
             "temperature": 0,
             "pressure": 0,
             "humidity": 0,
-            "pitch": 0,
-            "roll": 0,
-            "yaw": 0,
-            "x_acceleration": 0,
-            "y_acceleration": 0,
-            "z_acceleration": 0
+            "acceleration": 0,
+            "orientation": 0
 
         }
 
@@ -31,21 +27,14 @@ class PiSenseHat:
                 self.measurement[key] = self.round_value(value)
 
     def get_measurement(self):
-        self.measurement["current_time"] = str(datetime.now())
+        self.measurement["current_time"] = str(datetime.timestamp(datetime.now()))
         self.measurement["temperature"] = self.sense.get_temperature()
         self.measurement["pressure"] = self.sense.get_pressure()
         self.measurement["humidity"] = self.sense.get_humidity()
-        orientation = self.sense.get_orientation()
-        self.measurement["orientation"] = orientation
-        self.measurement["pitch"] = orientation['pitch']
-        self.measurement["roll"] = orientation['roll']
-        self.measurement["yaw"] = orientation['yaw']
-        acceleration = self.sense.get_accelerometer_raw()
-        self.measurement["x_acceleration"] = acceleration['x']
-        self.measurement["y_acceleration"] = acceleration['y']
-        self.measurement["z_acceleration"] = acceleration['z']
+        self.measurement["orientation"] = self.sense.get_orientation()
+        self.measurement["acceleration"] = self.sense.get_accelerometer_raw()
 
-        # self.round_values()
+        self.round_values()
 
     def __repr__(self):
 
