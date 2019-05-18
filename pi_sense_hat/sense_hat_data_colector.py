@@ -19,18 +19,16 @@ class PiSenseHat:
 
     @staticmethod
     def round_value(value):
-        # return round(value, 3)
-        print(value)
-        return value
+        return round(value, 3)
 
     def round_values(self):
         for key, value in self.measurement.items():
             if key not in ["current_time"]:
                 if key in ["acceleration", "orientation"]:
                     for sub_key, sub_value in value.items():
-                        self.measurement[key][sub_key] = sub_value
-
-                self.measurement[key] = self.round_value(value)
+                        self.measurement[key][sub_key] = self.round_value(sub_value)
+                else:
+                    self.measurement[key] = self.round_value(value)
 
     def get_measurement(self):
         self.measurement["current_time"] = str(datetime.timestamp(datetime.now()))
