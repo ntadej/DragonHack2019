@@ -26,8 +26,8 @@ class PiSenseHat:
         return round(value, 3)
 
     def round_values(self):
-        for value in self.measurement:
-            self.measurement[value] = self.round_value(self.measurement[value])
+        for key, value in self.measurement.items():
+            self.measurement[key] = self.round_value(value)
 
     def get_measurement(self):
         self.measurement["current_time"] = datetime.now()
