@@ -44,10 +44,24 @@ class PiSenseHat:
 
         return json.dumps(self.measurement, indent=4)
 
+
+import requests
+
+def post_to_web_page(IP: str, payload):
+    resp = requests.post(IP, json=payload)
+    if resp.status_code != 201:
+        print(resp.status_code)
+
 if __name__ == "__main__":
 
+    IP = "http://phoebe.tano.si:8080/pi_sense_hat"
+
+    # todo add while loop
+    # while True:
     for i in range(10):
         sleep(1)
         sensor = PiSenseHat()  # measure for one hour
         sensor.get_measurement()
         print(sensor)
+        post_to_web_page(IP=IP, payload=sensor.measurement)
+
