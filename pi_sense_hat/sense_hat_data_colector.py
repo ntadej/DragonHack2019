@@ -24,6 +24,10 @@ class PiSenseHat:
     def round_values(self):
         for key, value in self.measurement.items():
             if key not in ["current_time"]:
+                if key in ["acceleration", "orientation"]:
+                    for sub_key, sub_value in value.items():
+                        self.measurement[key][sub_key] = sub_value
+
                 self.measurement[key] = self.round_value(value)
 
     def get_measurement(self):
