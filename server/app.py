@@ -1,9 +1,11 @@
 from flask import Flask
 
 from blockchain.api import blueprint as blockchain
+from robot.api import blueprint as robot
 
 app = Flask(__name__)
 app.register_blueprint(blockchain, url_prefix='/api/blockchain')
+app.register_blueprint(robot, url_prefix='/api/robot')
 
 if __name__ == '__main__':
     from argparse import ArgumentParser

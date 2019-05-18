@@ -3,7 +3,7 @@ from uuid import uuid4
 from flask import Blueprint
 from flask_restplus import Api, Resource, fields
 
-from common import app_name
+from common import app_name, app_slogan
 from blockchain.blockchain import Blockchain
 
 # Instantiate the Blockchain
@@ -11,7 +11,7 @@ blockchain = Blockchain()
 
 # Instantiate the Node
 blueprint = Blueprint('blockchain', __name__)
-api = Api(blueprint, version="1.0", title=f"{app_name} Blockchain API", description="a PyPhy v3 project")
+api = Api(blueprint, version="1.0", title=f"{app_name} Blockchain API", description=app_slogan)
 
 nodes = api.model("Nodes", {
     "nodes": fields.List(fields.String(description="Node url"), description="List of nodes")
