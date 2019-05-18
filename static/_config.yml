@@ -1,0 +1,29 @@
+# Site settings
+title: DragonHack2019
+url: "https://phoebe.tano.si"
+baseurl: ""
+
+# Build settings
+production: false
+incremental: true
+source: src
+destination: public
+markdown: kramdown
+exclude: [src/node_modules]
+
+plugins:
+  - jekyll-assets
+
+assets:
+  cache: .asset-cache
+  compress:
+    css: true
+    js: true
+  features:
+    automatic_img_alt: false
+    automatic_img_size: false
+  sources:
+    - _assets/scripts
+    - _assets/sass
+    - _assets/images
+    - node_modules
