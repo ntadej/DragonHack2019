@@ -89,3 +89,21 @@ class DirectionReset(Resource):
 
         return {}
 
+
+sensesModel = api.model("Senses", {
+    "current_time": fields.String(description="Time"),
+    "temperature": fields.Float(description="Temperature"),
+    "pressure": fields.Float(description="Pressure"),
+    "humidity": fields.Float(description="Humidity"),
+})
+
+@api.route('/senses')
+class Senses(Resource):
+
+    @api.expect(sensesModel)
+    def post(self):
+        values = api.payload
+
+        sse.publish(values, type='telemetry')
+
+        return values
