@@ -19,7 +19,9 @@ class PiSenseHat:
 
     @staticmethod
     def round_value(value):
-        return round(value, 3)
+        # return round(value, 3)
+        print(value)
+        return value
 
     def round_values(self):
         for key, value in self.measurement.items():
