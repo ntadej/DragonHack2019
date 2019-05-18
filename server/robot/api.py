@@ -1,4 +1,4 @@
-from flask import Blueprint, g
+from flask import Blueprint, g, Response
 from flask_restplus import Api, Resource, fields
 from flask_restplus.reqparse import RequestParser
 
@@ -55,3 +55,18 @@ class DirectionReset(Resource):
 
         return {}
 
+
+messages = ['test']
+
+@blueprint.route('/stream')
+def stream():
+    def eventStream():
+        while True:
+            import time
+            time.sleep(1)
+            # Poll data from the database
+            # and see if there's a new message
+            if len(messages):
+                yield f'data: {messages[0]}\n\n'
+    
+    return Response(eventStream(), mimetype="text/event-stream")
