@@ -3,15 +3,11 @@ from sense_hat import SenseHat
 import json
 from time import sleep
 
-from typing import Dict
-
-
 class PiSenseHat:
 
     def __init__(self):
-        #time stamp at the time we started the measurement
         self.sense = SenseHat()  # define sensor object
-        self.measurement: Dict[str] = {
+        self.measurement = {
             "current_time": 0,
             "temperature": 0,
             "pressure": 0,
