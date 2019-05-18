@@ -1,6 +1,7 @@
 from flask import Blueprint, g, Response
 from flask_restplus import Api, Resource, fields
 from flask_restplus.reqparse import RequestParser
+from flask_sse import sse
 
 from common import app_name, app_slogan
 from blockchain.blockchain import Blockchain
@@ -14,12 +15,45 @@ directionParser = RequestParser()
 directionParser.add_argument('left', type=int, required=True)
 directionParser.add_argument('right', type=int, required=True)
 
-
+currentInstruction = 'stop'
 direction = {
     'left': None,
     'right': None,
 }
 
+@api.route('/start')
+class Start(Resource):
+
+    def get(self):
+        global currentInstruction
+
+        sse.publish({"message": "Starting movement ..."}, type='chat')
+
+        currentInstruction = 'drive'
+
+        return {
+            'status': 'ok'
+        }
+
+@api.route('/stop')
+class Stop(Resource):
+
+    def get(self):
+        global currentInstruction
+
+        sse.publish({"message": "Stopping ..."}, type='chat')
+
+        currentInstruction = 'stop'
+
+        return {
+            'status': 'ok'
+        }
+
+@api.route('/instructions')
+class Instructions(Resource):
+
+    def get(self):
+        return currentInstruction
 
 @api.route('/direction/get')
 class DirectionGet(Resource):
@@ -55,18 +89,3 @@ class DirectionReset(Resource):
 
         return {}
 
-
-messages = ['test']
-
-@blueprint.route('/stream')
-def stream():
-    def eventStream():
-        while True:
-            import time
-            time.sleep(1)
-            # Poll data from the database
-            # and see if there's a new message
-            if len(messages):
-                yield f'data: {messages[0]}\n\n'
-    
-    return Response(eventStream(), mimetype="text/event-stream")

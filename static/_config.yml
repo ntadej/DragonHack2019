@@ -9,16 +9,13 @@ incremental: true
 source: src
 destination: public
 markdown: kramdown
-exclude: [src/node_modules]
+exclude: [node_modules]
 
 plugins:
   - jekyll-assets
 
 assets:
-  cache: .asset-cache
-  compress:
-    css: true
-    js: true
+  digest: false
   features:
     automatic_img_alt: false
     automatic_img_size: false

@@ -1,11 +1,18 @@
 const Messaging = {
-    endpoint: 'http://localhost:5000/api/robot/stream',
+    endpoint: 'http://localhost:5000/api/stream',
     eventSource: null,
     init: function () {
         Messaging.eventSource = new EventSource(Messaging.endpoint);
-        Messaging.eventSource.onmessage = Messaging.event;
+        Messaging.eventSource.addEventListener('chat', Messaging.chatHandler);
+
+        Messaging.chatEl = $("#chat");
     },
-    event: function(e) {
-        console.log(e)
+    chatEl: null,
+    chatHandler: function(e) {
+        let obj = JSON.parse(e.data);
+        if (Messaging.chatEl.find('p').length >= 10) {
+            Messaging.chatEl.find('p').first().remove();
+        }
+        Messaging.chatEl.append(`<p>${obj.message}</p>`);
     }
 };
