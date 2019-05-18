@@ -1,2 +1,7 @@
+/static/public
 /venv
 __pycache__
+node_modules
+.jekyll-cache
+.jekyll-metadata
+.sprockets*

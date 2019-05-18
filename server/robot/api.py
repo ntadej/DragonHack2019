@@ -25,9 +25,10 @@ direction = {
 class DirectionGet(Resource):
 
     def get(self):
-        response = direction
+        if direction['left'] == None or direction['right'] == None:
+            return ''
 
-        return response
+        return f'{direction["left"]} {direction["right"]}'
 
 
 @api.route('/direction/set')
@@ -51,3 +52,6 @@ class DirectionReset(Resource):
             'left': None,
             'right': None,
         }
+
+        return {}
+
