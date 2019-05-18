@@ -45,7 +45,7 @@ class PiSenseHat:
         self.measurement["y_acceleration"] = acceleration['y']
         self.measurement["z_acceleration"] = acceleration['z']
 
-        self.round_values()
+        # self.round_values()
 
     def __repr__(self):
 
