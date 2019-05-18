@@ -31,7 +31,7 @@ class PiSenseHat:
                     self.measurement[key] = self.round_value(value)
 
     def get_measurement(self):
-        self.measurement["current_time"] = str(datetime.timestamp(datetime.now()))
+        self.measurement["current_time"] = str(round(datetime.timestamp(datetime.now())*1000)) # rounded ms
         self.measurement["temperature"] = self.sense.get_temperature()
         self.measurement["pressure"] = self.sense.get_pressure()
         self.measurement["humidity"] = self.sense.get_humidity()
