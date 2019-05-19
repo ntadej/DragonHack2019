@@ -82,7 +82,7 @@ class Status(Resource):
         lastStatus = status
         if currentInstruction == "start":
             return "1 1"
-        else
+        else:
             return "0 0"
 
 @api.route('/direction/get')
