@@ -8,6 +8,8 @@ from blockchain.blockchain import Blockchain
 
 # Instantiate the Blockchain
 blockchain = Blockchain()
+blockchain.register_node("server", "data_source")
+blockchain.register_node("sense_hat", "data_source")
 
 # Instantiate the Node
 blueprint = Blueprint('blockchain', __name__)
