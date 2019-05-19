@@ -80,7 +80,10 @@ class Status(Resource):
             else:
                 sse.publish({"delta": delta, "orientation": lastOrientation}, type='robot')
         lastStatus = status
-        return currentInstruction
+        if currentInstruction == "start":
+            return "1 1"
+        else
+            return "0 0"
 
 @api.route('/direction/get')
 class DirectionGet(Resource):
