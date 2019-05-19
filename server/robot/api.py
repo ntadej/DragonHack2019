@@ -6,8 +6,17 @@ from flask_sse import sse
 from common import app_name, app_slogan
 from blockchain.blockchain import Blockchain
 
+
+class RobotWithBlockchain(Blueprint):
+
+    def __init__(self, name, underscore_name, blockchain=None):
+
+        Blueprint.__init__(name, underscore_name)
+
+        self.blockchain = blockchain
+
 # Instantiate the Node
-blueprint = Blueprint('robot', __name__)
+blueprint = RobotWithBlockchain('robot', __name__)
 api = Api(blueprint, version='1.0', title=f'{app_name} Robot API', description=app_slogan)
 
 
@@ -167,8 +176,20 @@ class Senses(Resource):
 
         values = api.payload
 
+        blueprint.blockchain.add_transaction(values)
+
         lastOrientation = values['orientation']
 
         sse.publish(values, type='telemetry')
 
         return values
+
+
+@api.route('/history')
+class DataHistory(Resource):
+
+    def get(self):
+        try:
+            return blueprint.blockchain.getDataHistory()
+        except:
+            return []
