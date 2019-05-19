@@ -5,3 +5,4 @@ node_modules
 .jekyll-cache
 .jekyll-metadata
 .sprockets*
+**/.idea/*
