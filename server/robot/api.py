@@ -70,9 +70,7 @@ class Status(Resource):
 
         status = statusParser.parse_args()
 
-        if not lastStatus:
-            lastStatus = status
-        else:
+        if lastStatus:
             diff = int(status['timestamp']) - int(lastStatus['timestamp'])
             delta = diff
             if status['state'] == 'stopped' and lastStatus['state'] == 'stopped':
@@ -81,7 +79,7 @@ class Status(Resource):
                 sse.publish({"delta": delta/2, "orientation": lastOrientation}, type='robot')
             else:
                 sse.publish({"delta": delta, "orientation": lastOrientation}, type='robot')
-
+        lastStatus = status
         return currentInstruction
 
 @api.route('/direction/get')
