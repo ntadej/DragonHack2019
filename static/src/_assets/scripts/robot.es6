@@ -1,5 +1,5 @@
 const Robot = {
-    endpoint: 'http://localhost:5000/api/robot',
+    endpoint: 'http://phoebe.tano.si:8080/api/robot',
     init: function() {
         $('#button-start').click(Robot.start);
         $('#button-stop').click(Robot.stop);
