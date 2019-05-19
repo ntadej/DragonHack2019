@@ -5,12 +5,27 @@ layout: default
 <section class="hero is-dark is-fullheight">
     <div class="hero-head">
         <div class="container">
-            <p class="title">
-                🤕 Clumsy AngeLJ 😇
+            <nav class="level">
+                <!-- Left side -->
+                <div class="level-left">
+                        <p class="title">
+                                🤕 Clumsy AngeLJ 😇
+                            </p>
+                </div>
 
-                <a class="button" id="button-start">Start</a>
-                <a class="button" id="button-stop">Stop</a>
-            </p>
+                <!-- Right side -->
+                <div class="level-right">
+                    <div class="level-item">
+                            <a class="button" id="button-start">Start</a>
+                    </div>
+                    <div class="level-item">
+                            <a class="button" id="button-stop">Stop</a>
+                    </div>
+                    <div class="level-item">
+                            <a class="button is-danger" id="button-drop">Drop Sensor</a>
+                    </div>
+                </div>
+            </nav>
         </div>
     </div>
 
@@ -30,7 +45,9 @@ layout: default
                             <article class="tile is-child notification is-info">
                                 <!-- <p class="title">Middle tile</p>
                                 <p class="subtitle">With an image</p> -->
-                                <img src="http://193.2.178.110:9000/stream.mjpg" width="640" height="480">
+                                <div class="has-text-centered">
+                                    <img src="http://193.2.178.110:9000/stream.mjpg" width="640" height="480">
+                                </div>
                                 <!-- <img src="http://192.168.43.66:9000/stream.mjpg" width="640" height="480"> -->
                             </article>
                         </div>
@@ -47,7 +64,7 @@ layout: default
                     <article class="tile is-child notification is-primary">
                         <div class="content">
                             <div class="content" id="chat">
-                                
+
                             </div>
                         </div>
                     </article>

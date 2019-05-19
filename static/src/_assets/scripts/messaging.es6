@@ -13,10 +13,14 @@ const Messaging = {
     chatHandler: function(e) {
         let obj = JSON.parse(e.data);
         console.log(obj);
-        if (Messaging.chatEl.find('p').length >= 10) {
+        Messaging.chatHandlerMsg(obj);
+    },
+    chatHandlerMsg: function(obj) {
+        if (Messaging.chatEl.find('p').length >= 20) {
             Messaging.chatEl.find('p').first().remove();
         }
-        Messaging.chatEl.append(`<p>${obj.message}</p>`);
+        let time = moment(new Date()).format('HH:mm:ss');
+        Messaging.chatEl.append(`<p><span class="tag is-info">${time}</span> ${obj.message}</p>`);
     },
     telemetryHandler: function(e) {
         let obj = JSON.parse(e.data);
@@ -26,6 +30,10 @@ const Messaging = {
     robotHandler: function(e) {
         let obj = JSON.parse(e.data);
         console.log(obj);
-        MapCanvas.move(obj);
+        if (obj['obstacle']) {
+            MapCanvas.obstacle(obj);
+        } else {
+            MapCanvas.move(obj);
+        }
     }
 };
