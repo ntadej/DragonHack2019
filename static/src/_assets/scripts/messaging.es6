@@ -26,5 +26,6 @@ const Messaging = {
     robotHandler: function(e) {
         let obj = JSON.parse(e.data);
         console.log(obj);
+        MapCanvas.move(obj);
     }
 };
