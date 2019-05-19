@@ -101,7 +101,7 @@ class Status(Resource):
             else:
                 sse.publish({"delta": delta, "orientation": lastOrientation}, type='robot')
         lastStatus = status
-        if currentInstruction == "start":
+        if currentInstruction == "drive":
             return "1 1"
         else:
             return "0 0"
