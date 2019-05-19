@@ -8,7 +8,7 @@ class PiSenseHat:
     def __init__(self):
         self.sense = SenseHat()  # define sensor object
         self.measurement = {
-            "current_time": 0,
+            "timestamp": 0,
             "temperature": 0,
             "pressure": 0,
             "humidity": 0,
@@ -23,7 +23,7 @@ class PiSenseHat:
 
     def round_values(self):
         for key, value in self.measurement.items():
-            if key not in ["current_time"]:
+            if key not in ["timestamp"]:
                 if key in ["acceleration", "orientation"]:
                     for sub_key, sub_value in value.items():
                         self.measurement[key][sub_key] = self.round_value(sub_value)
@@ -31,7 +31,7 @@ class PiSenseHat:
                     self.measurement[key] = self.round_value(value)
 
     def get_measurement(self):
-        self.measurement["current_time"] = str(round(datetime.timestamp(datetime.now())*1000)) # rounded ms
+        self.measurement["timestamp"] = str(round(datetime.timestamp(datetime.now())*1000)) # rounded ms
         self.measurement["temperature"] = self.sense.get_temperature()
         self.measurement["pressure"] = self.sense.get_pressure()
         self.measurement["humidity"] = self.sense.get_humidity()
