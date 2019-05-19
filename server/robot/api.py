@@ -15,10 +15,14 @@ directionParser = RequestParser()
 directionParser.add_argument('left', type=int, required=True)
 directionParser.add_argument('right', type=int, required=True)
 
+dropParser = RequestParser()
+dropParser.add_argument('enable', type=int, required=True)
+
 statusParser = RequestParser()
 statusParser.add_argument('state', type=str, required=True)
 statusParser.add_argument('timestamp', type=str, required=True)
 
+dropState = 0
 currentInstruction = 'stop'
 direction = {
     'left': None,
@@ -61,6 +65,14 @@ class Instructions(Resource):
     def get(self):
         return currentInstruction
 
+@api.route('/obstacle')
+class Obstacle(Resource):
+
+    def get(self):
+        sse.publish({"message": "Obstacle found!"}, type='chat')
+        sse.publish({"obstacle": True, "orientation": lastOrientation}, type='robot')
+        return currentInstruction
+
 @api.route('/status')
 class Status(Resource):
 
@@ -84,6 +96,25 @@ class Status(Resource):
             return "1 1"
         else:
             return "0 0"
+
+
+@api.route('/drop/get')
+class DropGet(Resource):
+
+    def get(self):
+        return f'{dropState}'
+
+
+@api.route('/drop/set')
+class DropSet(Resource):
+
+    @api.expect(dropParser)
+    def get(self):
+        global dropState
+
+        dropState = dropParser.parse_args()
+        return direction
+
 
 @api.route('/direction/get')
 class DirectionGet(Resource):
