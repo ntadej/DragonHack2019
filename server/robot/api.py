@@ -27,8 +27,6 @@ direction = {
 lastStatus = None
 lastOrientation = None
 
-velocity = 1
-
 @api.route('/start')
 class Start(Resource):
 
@@ -76,7 +74,7 @@ class Status(Resource):
             lastStatus = status
         else:
             diff = int(status['timestamp']) - int(lastStatus['timestamp'])
-            delta = diff * velocity
+            delta = diff
             if status['state'] == 'stopped' and lastStatus['state'] == 'stopped':
                 pass
             elif status['state'] == 'stopped' or lastStatus['state'] == 'stopped':
@@ -84,7 +82,7 @@ class Status(Resource):
             else:
                 sse.publish({"delta": delta, "orientation": lastOrientation}, type='robot')
 
-        return status
+        return currentInstruction
 
 @api.route('/direction/get')
 class DirectionGet(Resource):
