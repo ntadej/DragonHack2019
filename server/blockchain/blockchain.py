@@ -14,14 +14,18 @@ class Blockchain:
         # Create the genesis block
         self.new_block(previous_hash='1', proof=100)
 
-    def register_node(self, address):
+    def register_node(self, address, node_type="url"):
         """
         Add a new node to the list of nodes
         :param address: Address of node. Eg. 'http://192.168.0.5:5000'
         """
-
-        parsed_url = urlparse(address)
-        self.nodes.add(parsed_url.netloc)
+        if node_type == "url":
+            parsed_url = urlparse(address)
+            self.nodes.add(parsed_url.netloc)
+        elif node_type == "data_source":
+            self.nodes.add(address)
+        else:
+            print("Node type {} unknown".format(address))
 
     def valid_chain(self, chain):
         """
@@ -106,7 +110,7 @@ class Blockchain:
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender, recipient, amount):
+    def new_transaction(self, sender, recipient, data_payload):
         """
         Creates a new transaction to go into the next mined Block
         :param sender: Address of the Sender
@@ -117,7 +121,7 @@ class Blockchain:
         self.current_transactions.append({
             'sender': sender,
             'recipient': recipient,
-            'amount': amount,
+            'data_payload': data_payload,
         })
 
         return self.last_block['index'] + 1
@@ -162,3 +166,40 @@ class Blockchain:
         guess = f'{last_proof}{proof}'.encode()
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
+
+    def add_transaction(self, data_payload):
+        # adds the data payload to the the chain
+        last_block = self.last_block
+        last_proof = last_block['proof']
+        proof = self.proof_of_work(last_proof)
+
+        # We must receive a reward for finding the proof.
+        # The sender is "0" to signify that this node has mined a new coin.
+        self.new_transaction(
+            sender="sense_hat",
+            recipient="server",
+            data_payload=data_payload,
+        )
+
+        # Forge the new Block by adding it to the chain
+        previous_hash = self.hash(last_block)
+        block = self.new_block(proof, previous_hash)
+
+        response = {
+            'message': "New Block Forged",
+            'index': block['index'],
+            'transactions': block['transactions'],
+            'proof': block['proof'],
+            'previous_hash': block['previous_hash'],
+        }
+
+        return response
+
+    def getDataHistory(self):
+        data_time_series = []
+
+        for block in self.chain:
+            for transaction in block["transactions"]:
+                data_time_series.append(transaction["data_payload"])
+
+        return data_time_series
