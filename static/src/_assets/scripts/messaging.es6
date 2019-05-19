@@ -21,6 +21,7 @@ const Messaging = {
     telemetryHandler: function(e) {
         let obj = JSON.parse(e.data);
         console.log(obj);
+        Plots.addData(obj);
     },
     robotHandler: function(e) {
         let obj = JSON.parse(e.data);
