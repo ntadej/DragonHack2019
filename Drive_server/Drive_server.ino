@@ -52,7 +52,8 @@ void loop() {
     digitalWrite(trigPin, HIGH);  // Read distance from distance sensor
     delayMicroseconds(10);
     digitalWrite(trigPin, LOW);
-    float distance1 = pulseIn(echoPin, HIGH)/58.2; // Distance in cm
+    float distance = pulseIn(echoPin, HIGH)/58.2; // Distance in cm
+    Serial.println(distance);
 
     if (distance < 20.0){
       // Send distance to server and start turn command
@@ -75,8 +76,8 @@ void loop() {
 
 void turn(void)
 {
-    analogWrite(enablePin2, tSpeed);
-    digitalWrite(enablePin1, LOW);
+    // analogWrite(enablePin2, tSpeed);
+    // digitalWrite(enablePin1, LOW);
     
-    delay(turnTime);
+    // delay(turnTime);
 }
