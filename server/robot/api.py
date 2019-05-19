@@ -11,7 +11,7 @@ class RobotWithBlockchain(Blueprint):
 
     def __init__(self, name, underscore_name, blockchain=None):
 
-        Blueprint.__init__(name, underscore_name)
+        super(RobotWithBlockchain, self).__init__(name, underscore_name)
 
         self.blockchain = blockchain
 
